@@ -1,4 +1,6 @@
 import json
+
+GESLO_JE_NAPACNO = 'Geslo je napačno!'
  
 class Uporabnik:
     def __init__(self, uporabnisko_ime, geslo, podatki):
@@ -22,6 +24,10 @@ class Uporabnik:
         geslo = slovar['geslo']
         podatki = Caj(slovar['podatki'])
         return Uporabnik(uporabnisko_ime, geslo, podatki)
+
+    def preveri_geslo(self, vneseno_geslo):
+        if vneseno_geslo != self.geslo:
+            return GESLO_JE_NAPACNO 
 
 class Caj:
     def __init__(self, podatki=None):
