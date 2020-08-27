@@ -38,20 +38,21 @@ class Caj:
             return 1
         else:
             najvecji_indeks = 1
-            for indeks in self.podatki.keys():
+            for indeks in map(int, self.podatki.keys()):
                 if indeks > najvecji_indeks:
                     najvecji_indeks = indeks
-            return najvecji_indeks + 1
+            najvecji_indeks += 1
+            return najvecji_indeks
 
 # podatki so oblikovani kot slovar slovarjev, kjer so ključi indeksi, vrednosti pa podatki zapisani v obliki slovarja:
 # {
 #     "1":
 #         {
-#             "ime": "Vroče poletje",
-#             "vrsta": "črni čaj",
-#             "temperatura": "100°C",
-#             "cas": "3 min",
-#             "rok uporabe": "06/21",
+#             "ime": "Beli tiger",
+#             "vrsta": "beli čaj",
+#             "temperatura": 80,
+#             "cas": "3-5",
+#             "rok uporabe": "02/21",
 #             "opombe": "Zmanjkuje!"
 #         }
 # }
@@ -62,7 +63,7 @@ class Caj:
             "ime": ime,
             "vrsta": vrsta,
             "temperatura": temperatura,
-            "čas": cas,
+            "cas": cas,
             "rok uporabe": rok,
             "opombe": opombe
         }
@@ -73,6 +74,7 @@ class Caj:
         self.podatki[indeks]["vrsta"] = vrsta
         self.podatki[indeks]["temperatura"] = temperatura
         self.podatki[indeks]["cas"] = cas
+        self.podatki[indeks]["rok uporabe"] = rok
         self.podatki[indeks]["opombe"]= opombe
 
     def uredi_po_imenu(self):

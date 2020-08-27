@@ -1,0 +1,34 @@
+% import model
+
+% rebase("base.html")
+
+<h1>Organizator</h1>
+
+<table border="1px solid black" style="border-collapse: collapse">
+<thead>
+  <tr>
+    <th style="width: 100pt">IME</th>
+    <th style="width: 100pt">VRSTA</th>
+    <th style="width: 100pt">TEMPERATURA</th>
+    <th style="width: 100pt">ČAS</th>
+    <th style="width: 100pt">ROK UPORABE</th>
+    <th style="width: 100pt">OPOMBE</th>
+  </tr>
+</thead>
+<tbody>
+% for indeks in podatki:
+  <tr>
+    <td>{{ podatki[indeks]["ime"] }}</td>
+    <td>{{ podatki[indeks]["vrsta"] }}</td>
+    <td>{{ podatki[indeks]["temperatura"] }}</td>
+    <td>{{ podatki[indeks]["cas"] }}</td>
+    <td>{{ podatki[indeks]["rok uporabe"] }}</td>
+    <td>{{ podatki[indeks]["opombe"] }}</td>
+  </tr>
+% end
+</tbody>
+</table>
+<p>Dodajte nov čaj:</p>
+<form action="/dodaj_caj/" method="get">
+    <button type="submit">Dodaj</button>
+</form>
