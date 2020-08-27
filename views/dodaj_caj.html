@@ -2,17 +2,17 @@
 
 % rebase("base.html")
 
-<p>Dodajanje novega čaja v organizator: (polji z imenom in vrsto sta obvezni)</p>
+<p>Dodajanje novega čaja v organizator: (polji z imenom in vrsto sta obvezni, znaka ' in " nista dovoljena)</p>
 
   <form action="/dodaj_caj/" method="post">
     <table>
       <tr>
         <td><b>Ime:</b></td>
-        <td><input type="text" name="ime" required></td>
+        <td><input type="text" name="ime" pattern="[^'\x22]+" required></td>
       </tr>
       <tr>
         <td><b>Vrsta</b></td>
-        <td><input type="text" name="vrsta" list="vrsta" required />
+        <td><input type="text" name="vrsta" list="vrsta" pattern="[^'\x22]+" required />
             <datalist id="vrsta">
               <option>zeleni čaj</option>
               <option>črni čaj</option>
@@ -35,11 +35,11 @@
       </tr>
       <tr>
         <td><b>Rok uporabe:</b></td>
-        <td><input type="month" name="rok uporabe"></td>
+        <td><input type="text" name="rok uporabe" pattern="[0-9]{4}-(0[1-9]|1[012])" title="Vnešeni rok uporabe, ki naj bo oblike LLLL-MM"></td>
       </tr>
       <tr>
         <td><b>Opombe</b></td>
-        <td><input type="text" name="opombe"></td>
+        <td><input type="text" name="opombe" pattern="[^'\x22]+"></td>
       </tr>
     </table>
     <input type="submit" value="Dodaj">
