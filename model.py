@@ -16,12 +16,12 @@ class Uporabnik:
             "zasifrirano_geslo": self.zasifrirano_geslo,
             "slovar_s_podatki": self.slovar_s_podatki.podatki
         }
-        with open(ime_datoteke, "w") as datoteka:
+        with open(ime_datoteke, "w", encoding="utf-8") as datoteka:
             json.dump(slovar_stanja, datoteka, ensure_ascii=False, indent=4)
 
     @classmethod
     def nalozi_stanje(cls, ime_datoteke):
-        with open(ime_datoteke) as dat:
+        with open(ime_datoteke, encoding="utf-8") as dat:
             slovar_stanja = json.load(dat)
         uporabnisko_ime = slovar_stanja["uporabnisko_ime"]
         zasifrirano_geslo = slovar_stanja["zasifrirano_geslo"]

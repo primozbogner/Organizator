@@ -5,25 +5,17 @@
         "1": {
             "ime": "Vroče poletje",
             "vrsta": "črni čaj",
-            "temperatura": 100,
+            "temperatura": "100",
             "cas": "03:00",
-            "rok uporabe": "06/21",
+            "rok uporabe": "2021-06",
             "opombe": "Zmanjkuje!"
         },
         "2": {
             "ime": "Beli tiger",
             "vrsta": "beli čaj",
-            "temperatura": 80,
+            "temperatura": "80",
             "cas": "02:30",
-            "rok uporabe": "02/21",
-            "opombe": ""
-        },
-        "3": {
-            "ime": "�������������",
-            "vrsta": "rooibos �aj",
-            "temperatura": "45",
-            "cas": "12:00",
-            "rok uporabe": "",
+            "rok uporabe": "2021-02",
             "opombe": ""
         }
     }
