@@ -1,4 +1,9 @@
 import json
+
+NAPACNO_GESLO = 'Geslo je napačno!'
+UPORABNIK_ZE_OBSTAJA = 'To uporabniško ime že obstaja!'
+UPORABNIK_NE_OBSTAJA = 'To uporabniško ime ne obstaja!\nProsim preverite vnos ali se registrirajte'
+
  
 class Uporabnik:
     def __init__(self, uporabnisko_ime, zasifrirano_geslo, slovar_s_podatki):
@@ -7,8 +12,8 @@ class Uporabnik:
         self.slovar_s_podatki = slovar_s_podatki
         
     def preveri_geslo(self, zasifrirano_geslo):
-        if zasifrirano_geslo != self.zasifrirano_geslo:
-            raise ValueError("Geslo je napačno!")       
+        if self.zasifrirano_geslo != zasifrirano_geslo:
+            return       
 
     def shrani_stanje(self, ime_datoteke):
         slovar_stanja = {

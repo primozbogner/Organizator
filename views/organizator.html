@@ -6,29 +6,42 @@
 
 <table border="1px solid black" style="border-collapse: collapse">
 <thead>
-  <tr>
-    <th style="width: 100pt">IME</th>
-    <th style="width: 100pt">VRSTA</th>
-    <th style="width: 100pt">TEMPERATURA</th>
-    <th style="width: 100pt">ČAS</th>
-    <th style="width: 100pt">ROK UPORABE</th>
-    <th style="width: 100pt">OPOMBE</th>
-  </tr>
+    <tr>
+        <th style="width: 100pt">IME</th>
+        <th style="width: 100pt">VRSTA</th>
+        <th style="width: 100pt">TEMPERATURA</th>
+        <th style="width: 100pt">ČAS</th>
+        <th style="width: 100pt">ROK UPORABE</th>
+        <th style="width: 100pt">OPOMBE</th>
+    </tr>
 </thead>
 <tbody>
 % for indeks in podatki:
-  <tr>
-    <td>{{ podatki[indeks]["ime"] }}</td>
-    <td>{{ podatki[indeks]["vrsta"] }}</td>
-    <td>{{ podatki[indeks]["temperatura"] }}</td>
-    <td>{{ podatki[indeks]["cas"] }}</td>
-    <td>{{ podatki[indeks]["rok uporabe"] }}</td>
-    <td>{{ podatki[indeks]["opombe"] }}</td>
-  </tr>
+    <tr>
+        <td>{{ podatki[indeks]['ime'] }}</td>
+        <td>{{ podatki[indeks]['vrsta'] }}</td>
+        <td>{{ podatki[indeks]['temperatura'] }}</td>
+        <td>{{ podatki[indeks]['cas'] }}</td>
+        <td>{{ podatki[indeks]['rok uporabe'] }}</td>
+        <td>{{ podatki[indeks]['opombe'] }}</td>
+        <td>
+            <form action="/odstrani_caj{{ indeks }}/" method="post">
+                <button type="submit">Odstrani</button>
+            </form>
+        </td>
+        <td>
+            <form action="/uredi_caj{{ indeks }}/" method="get">
+                <button type="submit">Uredi</button>
+            </form>
+        </td>
+    </tr>
 % end
 </tbody>
 </table>
 <p>Dodajte nov čaj:</p>
 <form action="/dodaj_caj/" method="get">
-    <button type="submit">Dodaj</button>
+      <button type="submit">Dodaj</button>
+</form>
+<form action="/odjava/" method="post">
+    <button type="submit">Odjavi se</button>
 </form>

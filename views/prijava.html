@@ -1,0 +1,17 @@
+% import model
+
+% rebase("base.html")
+
+% if napaka is not None:
+    <p>{{ napaka }}</p>
+% end
+
+<p>Prosim vnesite svoje uporabniško ime in geslo:</p>
+<form action="/prijava/" method="post">
+    <input type="text" name="uporabnisko_ime" pattern="[^'\x22]+" required autofocus />
+    <input type="password" name="geslo" pattern="[^'\x22]+" required />
+    <input type="submit" value="Vpiši se" />
+</form>
+<p>
+    <a href="/registracija/">Registriraj se</a>
+</p>

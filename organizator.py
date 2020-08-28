@@ -1,5 +1,5 @@
 import bottle
-from model import Caj, Uporabnik
+from model import Caj, Uporabnik, NAPACNO_GESLO, UPORABNIK_ZE_OBSTAJA,UPORABNIK_NE_OBSTAJA
 import hashlib
 import os
 
@@ -11,7 +11,9 @@ for ime_datoteke in os.listdir('uporabniki'):
     uporabniki[uporabnik.uporabnisko_ime] = uporabnik
 
 def trenutni_uporabnik():
-    uporabnisko_ime = 'uporabnik' #bottle.request.get_cookie('uporabnisko_ime', secret=SKRIVNOST)
+    uporabnisko_ime = bottle.request.get_cookie('uporabnisko_ime', secret=SKRIVNOST)
+    if uporabnisko_ime is None:
+        bottle.redirect('/prijava/')
     return uporabniki[uporabnisko_ime]
 
 def podatki_trenutnega_uporabnika():
@@ -30,6 +32,53 @@ def organizator():
     podatki = podatki_trenutnega_uporabnika().podatki
     return bottle.template('organizator.html', podatki=podatki)
 
+@bottle.get('/prijava/')
+def prijava_get():
+    return bottle.template('prijava.html', napaka=None)
+
+@bottle.post('/prijava/')
+def prijava_post():
+    uporabnisko_ime = bottle.request.forms.getunicode('uporabnisko_ime')
+    geslo = bottle.request.forms.getunicode('geslo')
+    h = hashlib.blake2b()
+    h.update(geslo.encode(encoding='utf-8'))
+    zasifrirano_geslo = h.hexdigest()
+    if uporabnisko_ime not in uporabniki:
+        return bottle.template('prijava.html', napaka=UPORABNIK_NE_OBSTAJA)
+    uporabnik = uporabniki[uporabnisko_ime]
+    if uporabnik.preveri_geslo(zasifrirano_geslo) == NAPACNO_GESLO:
+        return bottle.template('prijava.html', napaka=NAPACNO_GESLO)
+    bottle.response.set_cookie('uporabnisko_ime', uporabnik.uporabnisko_ime, path='/', secret=SKRIVNOST)
+    bottle.redirect('/')
+
+@bottle.get('/registracija/')
+def registracija_get():
+    return bottle.template('registracija.html', napaka=None)
+
+@bottle.post('/registracija/')
+def registracija_post():
+    uporabnisko_ime = bottle.request.forms.getunicode('uporabnisko_ime')
+    if uporabnisko_ime in uporabniki:
+        return bottle.template('registracija.html', napaka=UPORABNIK_ZE_OBSTAJA)
+    geslo = bottle.request.forms.getunicode('geslo')
+    h = hashlib.blake2b()
+    h.update(geslo.encode(encoding='utf-8'))
+    zasifrirano_geslo = h.hexdigest()
+    uporabnik = Uporabnik(
+        uporabnisko_ime,
+        zasifrirano_geslo,
+        Caj()
+        )
+    uporabniki[uporabnisko_ime] = uporabnik
+    bottle.response.set_cookie('uporabnisko_ime', uporabnik.uporabnisko_ime, path='/', secret=SKRIVNOST)
+    bottle.redirect('/')    
+
+@bottle.post('/odjava/')
+def odjava():
+    shrani_trenutnega_uporabnika()
+    bottle.response.delete_cookie('uporabnisko_ime', path='/')
+    bottle.redirect('/')
+
 @bottle.get('/dodaj_caj/')
 def dodaj_caj_get():
     return bottle.template('dodaj_caj.html')
@@ -38,34 +87,39 @@ def dodaj_caj_get():
 def dodaj_caj_post():
     ime = bottle.request.forms.getunicode('ime')
     vrsta = bottle.request.forms.getunicode('vrsta')
-    temperatura = bottle.request.forms.getunicode('temperatura')
-    cas = bottle.request.forms.getunicode('cas')
+    temperatura = bottle.request.forms.getunicode('temperatura') + ' °C'
+    cas = bottle.request.forms.getunicode('cas') + ' min'
     rok = bottle.request.forms.getunicode('rok uporabe')
     opombe = bottle.request.forms.getunicode('opombe')
     podatki_trenutnega_uporabnika().dodaj_caj(ime, vrsta, temperatura, cas, rok, opombe)
     shrani_trenutnega_uporabnika()
     bottle.redirect('/organizator/')
 
-#@bottle.get('/prijava/')
-#def prijava_get():
-#    return bottle.template('prijava.html')
-#
-# @bottle.post('/prijava/')
-# def prijava_post():
-#     uporabnisko_ime = bottle.request.forms.getunicode('uporabnisko_ime')
-#     if uporabnisko_ime not in uporabniki:
-#         raise ValueError('Uporabniško ime ne obstaja')
-#         bottle.redirect('/registracija/')
-#     geslo = bottle.request.forms.getunicode('geslo')
-#     uporabnik.preveri_geslo
-#     h = hashlib.blake2b()
-#     h.update(geslo.encode(encoding='utf-8'))
-#     zasifrirano_geslo = h.hexdigest()
-#     uporabnik.preveri_geslo(zasifrirano_geslo)
-#     
-# @bottle.post('/registracija/')
-# def registracija_post():
-#     pass
+@bottle.post('/odstrani_caj<indeks>/')
+def odstrani_caj(indeks):
+    podatki_trenutnega_uporabnika().odstrani_caj(indeks)
+    bottle.redirect('/')
 
+@bottle.get('/uredi_caj<indeks>/')
+def uredi_caj_get(indeks):
+    shrani_trenutnega_uporabnika()
+    podatki = podatki_trenutnega_uporabnika().podatki
+    return bottle.template('uredi_caj.html', podatki=podatki, indeks=indeks)
+
+@bottle.post('/uredi_caj<indeks>/')
+def uredi_caj_post(indeks):
+    ime = bottle.request.forms.getunicode('ime')
+    vrsta = bottle.request.forms.getunicode('vrsta')
+    temperatura = bottle.request.forms.getunicode('temperatura')
+    if temperatura != '':
+        temperatura += ' °C'
+    cas = bottle.request.forms.getunicode('cas')
+    if cas != '':
+        cas += ' min'
+    rok = bottle.request.forms.getunicode('rok uporabe')
+    opombe = bottle.request.forms.getunicode('opombe')
+    podatki_trenutnega_uporabnika().uredi_caj(str(indeks), ime, vrsta, temperatura, cas, rok, opombe)
+    shrani_trenutnega_uporabnika()
+    bottle.redirect('/')
 
 bottle.run(debug=True, reloader=True)
