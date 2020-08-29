@@ -136,6 +136,16 @@ def razvrsti_po_vrsti():
     podatki_trenutnega_uporabnika().razvrsti_po_vrsti()
     bottle.redirect('/')
 
+@bottle.get('/razvrsti_po_imenu_nakupovalni/')
+def razvrsti_po_imenu_nakupovalni():
+    podatki_trenutnega_uporabnika().razvrsti_po_imenu()
+    bottle.redirect('/nakupovalni_seznam/')
+
+@bottle.get('/razvrsti_po_vrsti_nakupovalni/')
+def razvrsti_po_vrsti_nakupovalni():
+    podatki_trenutnega_uporabnika().razvrsti_po_vrsti()
+    bottle.redirect('/nakupovalni_seznam/')
+
 @bottle.get('/nakupovalni_seznam/')
 def nakupovalni_seznam():
     podatki = podatki_trenutnega_uporabnika().podatki

@@ -97,7 +97,7 @@ class Caj:
                 self.podatki[str(n)] = caj
 
     def razvrsti_po_imenu(self):
-        """Čaje razvrsti po abecednem vrstnem redu in jih oštevilči z indeksi od 1 do n."""
+        """Čaje razvrsti po abecednem vrstnem redu glede na ime in jih oštevilči z indeksi od 1 do n."""
         seznam = []
         urejeni_podatki = {}
         for i in self.podatki:
