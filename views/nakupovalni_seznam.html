@@ -2,28 +2,22 @@
 
 % rebase("base.html")
 
-<h1>Organizator</h1>
+<h1>Nakupovalni seznam</h1>
 
 <table border="1px solid black" style="border-collapse: collapse">
 <thead>
     <tr>
         <th style="width: 100pt">IME</th>
         <th style="width: 100pt">VRSTA</th>
-        <th style="width: 100pt">TEMPERATURA [°C]</th>
-        <th style="width: 100pt">ČAS [min]</th>
-        <th style="width: 100pt">ROK UPORABE</th>
         <th style="width: 100pt">OPOMBE</th>
     </tr>
 </thead>
 <tbody>
 % for indeks in podatki:
-    % if not podatki[indeks]['nakupovalni']:
+    % if podatki[indeks]['nakupovalni']:
     <tr>
         <td>{{ podatki[indeks]['ime'] }}</td>
         <td>{{ podatki[indeks]['vrsta'] }}</td>
-        <td>{{ podatki[indeks]['temperatura'] }}</td>
-        <td>{{ podatki[indeks]['cas'] }}</td>
-        <td>{{ podatki[indeks]['rok uporabe'] }}</td>
         <td>{{ podatki[indeks]['opombe'] }}</td>
         <td>
             <form action="/odstrani_caj{{ indeks }}/" method="post">
@@ -53,6 +47,6 @@
 <form action="/razvrsti_po_vrsti/" method="get">
     <button type="submit">Razvrsti po vrsti</button>
 </form>
-<form action="/nakupovalni_seznam/" method="get">
-    <button type="submit">Nakupovalni seznam</button>
+<form action="/organizator/" method="get">
+    <button type="submit">Nazaj</button>
 </form>

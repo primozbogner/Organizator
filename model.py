@@ -2,7 +2,7 @@ import json
 
 NAPACNO_GESLO = 'Geslo je napačno!'
 UPORABNIK_ZE_OBSTAJA = 'To uporabniško ime že obstaja!'
-UPORABNIK_NE_OBSTAJA = 'To uporabniško ime ne obstaja!\nProsim preverite vnos ali se registrirajte'
+UPORABNIK_NE_OBSTAJA = 'To uporabniško ime ne obstaja! Prosim preverite vnos ali se registrirajte'
 
  
 class Uporabnik:
@@ -13,7 +13,7 @@ class Uporabnik:
         
     def preveri_geslo(self, zasifrirano_geslo):
         if self.zasifrirano_geslo != zasifrirano_geslo:
-            return       
+            return NAPACNO_GESLO 
 
     def shrani_stanje(self, ime_datoteke):
         slovar_stanja = {
@@ -58,11 +58,12 @@ class Caj:
 #             "temperatura": 80,
 #             "cas": "3-5",
 #             "rok uporabe": "02/21",
-#             "opombe": "Zmanjkuje!"
+#             "opombe": "Zmanjkuje!",
+#             "nakupovalni": false
 #         }
 # }
 
-    def dodaj_caj(self, ime, vrsta, temperatura, cas, rok, opombe):
+    def dodaj_caj(self, ime, vrsta, temperatura, cas, rok, opombe, nakupovalni):
         """Doda nov čaj v slovar podatkov"""
         self.podatki[self.nov_indeks()] = {
             "ime": ime,
@@ -70,38 +71,51 @@ class Caj:
             "temperatura": temperatura,
             "cas": cas,
             "rok uporabe": rok,
-            "opombe": opombe
+            "opombe": opombe,
+            "nakupovalni": nakupovalni
         }
 
-    def uredi_caj(self, indeks, ime, vrsta, temperatura, cas, rok, opombe):
+    def uredi_caj(self, indeks, ime, vrsta, temperatura, cas, rok, opombe, nakupovalni):
         """Uredi že obstoječi čaj v slovarju podatkov"""
         self.podatki[indeks]["ime"] = ime
         self.podatki[indeks]["vrsta"] = vrsta
         self.podatki[indeks]["temperatura"] = temperatura
         self.podatki[indeks]["cas"] = cas
         self.podatki[indeks]["rok uporabe"] = rok
-        self.podatki[indeks]["opombe"]= opombe
+        self.podatki[indeks]["opombe"] = opombe
+        self.podatki[indeks]["nakupovalni"] = nakupovalni
 
-    def uredi_po_imenu(self):
-        """Čaje uredi po abecednem vrstnem redu in jih oštevilči z indeksi od 1 do n."""
+    def uredi_indekse(self):
+        '''Uredi indekse po vrsti od 1 do dolžine slovarja'''
+        if self.podatki == {}:
+            pass
+        else:
+            indeksi = [kljuc for kljuc in self.podatki]
+            for n in range(1, len(indeksi) + 1):
+                caj = self.podatki[indeksi[n - 1]]
+                self.podatki.pop(indeksi[n - 1])
+                self.podatki[str(n)] = caj
+
+    def razvrsti_po_imenu(self):
+        """Čaje razvrsti po abecednem vrstnem redu in jih oštevilči z indeksi od 1 do n."""
         seznam = []
         urejeni_podatki = {}
         for i in self.podatki:
             seznam.append((self.podatki[i]["ime"], i))
         seznam.sort(key=lambda x: x[0])
-        for i, (_, indeks) in range(len(seznam)), seznam:
+        for i, (_, indeks) in enumerate(seznam):
             urejeni_podatki[str(i + 1)] = self.podatki[indeks]
             self.podatki.pop(indeks)
         self.podatki = urejeni_podatki
 
-    def uredi_po_vrsti(self):
-        """Čaje uredi po abecednem vrstnem redu, najprej po vrsti, nato pa še po imenu in jih oštevilči z indeksi od 1 do n"""
+    def razvrsti_po_vrsti(self):
+        """Čaje razvrsti po abecednem vrstnem redu, najprej po vrsti, nato pa še po imenu in jih oštevilči z indeksi od 1 do n"""
         seznam = []
         urejeni_podatki = {}
         for i in self.podatki:
             seznam.append((self.podatki[i]["vrsta"], self.podatki[i]["ime"], i))
         seznam.sort(key=lambda x: (x[0], x[1]))
-        for i, (_, _, indeks) in range(len(seznam)), seznam:
+        for i, (_, _, indeks) in enumerate(seznam):
             urejeni_podatki[str(i + 1)] = self.podatki[indeks]
             self.podatki.pop(indeks)
         self.podatki = urejeni_podatki

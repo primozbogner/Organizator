@@ -87,17 +87,24 @@ def dodaj_caj_get():
 def dodaj_caj_post():
     ime = bottle.request.forms.getunicode('ime')
     vrsta = bottle.request.forms.getunicode('vrsta')
-    temperatura = bottle.request.forms.getunicode('temperatura') + ' °C'
-    cas = bottle.request.forms.getunicode('cas') + ' min'
+    temperatura = bottle.request.forms.getunicode('temperatura')
+    cas = bottle.request.forms.getunicode('cas')
     rok = bottle.request.forms.getunicode('rok uporabe')
     opombe = bottle.request.forms.getunicode('opombe')
-    podatki_trenutnega_uporabnika().dodaj_caj(ime, vrsta, temperatura, cas, rok, opombe)
+    nakupovalni = bool(bottle.request.forms.getunicode('nakupovalni'))
+    podatki_trenutnega_uporabnika().dodaj_caj(ime, vrsta, temperatura, cas, rok, opombe, nakupovalni)
+    podatki_trenutnega_uporabnika().uredi_indekse()
     shrani_trenutnega_uporabnika()
-    bottle.redirect('/organizator/')
+    if nakupovalni:
+        bottle.redirect('/nakupovalni_seznam/')
+    else:
+        bottle.redirect('/organizator/')
 
 @bottle.post('/odstrani_caj<indeks>/')
 def odstrani_caj(indeks):
     podatki_trenutnega_uporabnika().odstrani_caj(indeks)
+    podatki_trenutnega_uporabnika().uredi_indekse()
+    shrani_trenutnega_uporabnika()
     bottle.redirect('/')
 
 @bottle.get('/uredi_caj<indeks>/')
@@ -111,15 +118,27 @@ def uredi_caj_post(indeks):
     ime = bottle.request.forms.getunicode('ime')
     vrsta = bottle.request.forms.getunicode('vrsta')
     temperatura = bottle.request.forms.getunicode('temperatura')
-    if temperatura != '':
-        temperatura += ' °C'
-    cas = bottle.request.forms.getunicode('cas')
-    if cas != '':
-        cas += ' min'
+    cas = bottle.request.forms.getunicode('cas') 
     rok = bottle.request.forms.getunicode('rok uporabe')
     opombe = bottle.request.forms.getunicode('opombe')
-    podatki_trenutnega_uporabnika().uredi_caj(str(indeks), ime, vrsta, temperatura, cas, rok, opombe)
+    nakupovalni = bool(bottle.request.forms.getunicode('nakupovalni'))
+    podatki_trenutnega_uporabnika().uredi_caj(str(indeks), ime, vrsta, temperatura, cas, rok, opombe, nakupovalni)
     shrani_trenutnega_uporabnika()
+    bottle.redirect('/organizator/')
+
+@bottle.get('/razvrsti_po_imenu/')
+def razvrsti_po_imenu():
+    podatki_trenutnega_uporabnika().razvrsti_po_imenu()
     bottle.redirect('/')
+
+@bottle.get('/razvrsti_po_vrsti/')
+def razvrsti_po_vrsti():
+    podatki_trenutnega_uporabnika().razvrsti_po_vrsti()
+    bottle.redirect('/')
+
+@bottle.get('/nakupovalni_seznam/')
+def nakupovalni_seznam():
+    podatki = podatki_trenutnega_uporabnika().podatki
+    return bottle.template('nakupovalni_seznam.html', podatki=podatki)
 
 bottle.run(debug=True, reloader=True)
