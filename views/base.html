@@ -1,12 +1,78 @@
+% zavihki = [
+%     'organizator',
+%     'nakupovalni_seznam'
+% ]
+% oznaka_zavihka = {
+%     'organizator': 'Zaloga',
+%     'nakupovalni_seznam': 'Nakupovalni seznam'
+% }
+% ikona_zavihka = {
+%     'organizator': 'fas fa-th-list has-text-success',
+%     'nakupovalni_seznam': 'fas fa-shopping-basket has-text-success'
+% }
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="author" content="Primož Bogner">
         <meta name="description" contant="Spletna stran omogoča organizacijo posameznikove zaloge čaja in vnašanje napotkov za pripravo za posamezno vrsto čaja.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     </head>
     <title>Organizator čajev</title>
-    <body>
-        {{!base}}
+    <body class="has-navbar-fixed-top">
+        <nav class="navbar is-light is-fixed-top">
+            <div class="container">
+                <div class="navbar-brand">
+                    <span class="navbar-item">
+                        <span class="icon">
+                            <i class="fas fa-seedling has-text-success"></i>
+                        </span>
+                        <strong>ORGANIZATOR ČAJEV</strong>
+                    </span>
+                </div>
+                <div class="navbar-start">
+                    % if defined('izbrani_zavihek'):
+                        % for zavihek in zavihki:
+                            % if zavihek == izbrani_zavihek:
+                            <a class="navbar-item is-active" href="/{{zavihek}}/">
+                            % else:
+                            <a class="navbar-item" href="/{{zavihek}}/">
+                            % end
+                            <span class="icon">
+                                <i class="{{ikona_zavihka[zavihek]}}"></i>
+                            </span>
+                            <span>{{oznaka_zavihka[zavihek]}}</span>
+                            </a>
+                        % end
+                    % end
+                </div>
+                <div class="navbar-end">
+                    % if defined('izbrani_zavihek'):
+                    <a class="navbar-item is-active">
+                        <form method="POST" action="/odjava/">
+                            <button class="button is-text is-normal" style="display: flex; align-items: center">Odjavi se</button>
+                        </form>
+                    </a>
+                    % end
+                    <a class="navbar-item" href="https://github.com/primozbogner/Organizator">
+                    <span class="icon">
+                        <i class="fab fa-github has-text-success"></i>
+                    </span>
+                    <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <section class="section">
+            {{!base}}
+        </section>
+        <!--
+        <footer class="footer">
+            <div class="content has-text-centered">
+                
+            </div>
+        </footer>-->
     </body>
 </html>

@@ -79,10 +79,6 @@ def odjava():
     bottle.response.delete_cookie('uporabnisko_ime', path='/')
     bottle.redirect('/')
 
-@bottle.get('/dodaj_caj/')
-def dodaj_caj_get():
-    return bottle.template('dodaj_caj.html')
-
 @bottle.post('/dodaj_caj/')
 def dodaj_caj_post():
     ime = bottle.request.forms.getunicode('ime')
@@ -102,9 +98,12 @@ def dodaj_caj_post():
 
 @bottle.post('/odstrani_caj<indeks>/')
 def odstrani_caj(indeks):
+    nakupovalni = bool(podatki_trenutnega_uporabnika().podatki[indeks]['nakupovalni'])
     podatki_trenutnega_uporabnika().odstrani_caj(indeks)
     podatki_trenutnega_uporabnika().uredi_indekse()
     shrani_trenutnega_uporabnika()
+    if nakupovalni:
+        bottle.redirect('/nakupovalni_seznam/')
     bottle.redirect('/')
 
 @bottle.get('/uredi_caj<indeks>/')
@@ -115,6 +114,7 @@ def uredi_caj_get(indeks):
 
 @bottle.post('/uredi_caj<indeks>/')
 def uredi_caj_post(indeks):
+    nakup_sez = bool(podatki_trenutnega_uporabnika().podatki[indeks]['nakupovalni'])
     ime = bottle.request.forms.getunicode('ime')
     vrsta = bottle.request.forms.getunicode('vrsta')
     temperatura = bottle.request.forms.getunicode('temperatura')
@@ -124,6 +124,8 @@ def uredi_caj_post(indeks):
     nakupovalni = bool(bottle.request.forms.getunicode('nakupovalni'))
     podatki_trenutnega_uporabnika().uredi_caj(str(indeks), ime, vrsta, temperatura, cas, rok, opombe, nakupovalni)
     shrani_trenutnega_uporabnika()
+    if nakup_sez:
+        bottle.redirect('/nakupovalni_seznam/')
     bottle.redirect('/organizator/')
 
 @bottle.get('/razvrsti_po_imenu/')

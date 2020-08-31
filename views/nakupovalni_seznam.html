@@ -1,52 +1,88 @@
 % import model
 
-% rebase("base.html")
+% rebase("base.html", izbrani_zavihek='nakupovalni_seznam')
 
-<h1>Nakupovalni seznam</h1>
+% prazen = True
 
-<table border="1px solid black" style="border-collapse: collapse">
-<thead>
-    <tr>
-        <th style="width: 100pt">IME</th>
-        <th style="width: 100pt">VRSTA</th>
-        <th style="width: 100pt">OPOMBE</th>
-    </tr>
-</thead>
-<tbody>
-% for indeks in podatki:
-    % if podatki[indeks]['nakupovalni']:
-    <tr>
-        <td>{{ podatki[indeks]['ime'] }}</td>
-        <td>{{ podatki[indeks]['vrsta'] }}</td>
-        <td>{{ podatki[indeks]['opombe'] }}</td>
-        <td>
-            <form action="/odstrani_caj{{ indeks }}/" method="post">
-                <button type="submit">Odstrani</button>
-            </form>
-        </td>
-        <td>
-            <form action="/uredi_caj{{ indeks }}/" method="get">
-                <button type="submit">Uredi</button>
-            </form>
-        </td>
-    </tr>
-    % end
-% end
-</tbody>
-</table>
+<div class="columns">
+    <div class="column is-one-fifth">
+        <nav class="panel">
+            <p class="panel-heading">
+                <i class="fas fa-plus-circle has-text-success"></i>
+                Dodaj čaj
+            </p>
+            <div class="panel-block">
+            % include('_dodaj_caj.html')
+            </div>
+        </nav>
+    </div>
 
-<form action="/dodaj_caj/" method="get">
-      <button type="submit">Dodaj</button>
-</form>
-<form action="/odjava/" method="post">
-    <button type="submit">Odjavi se</button>
-</form>
-<form action="/razvrsti_po_imenu_nakupovalni/" method="get">
-    <button type="submit">Razvrsti po imenu</button>
-</form>
-<form action="/razvrsti_po_vrsti_nakupovalni/" method="get">
-    <button type="submit">Razvrsti po vrsti</button>
-</form>
-<form action="/organizator/" method="get">
-    <button type="submit">Nazaj</button>
-</form>
+    <div class="column">
+        <div class="table-container">
+            <table class="table is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="field is-grouped">
+                                IME
+                                <a href="/razvrsti_po_imenu_nakupovalni/">
+                                    <span class="icon">
+                                        <i class="fas fa-sort-alpha-down has-text-success"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="field is-grouped">
+                                VRSTA
+                                <a href="/razvrsti_po_vrsti_nakupovalni/">
+                                    <span class="icon">
+                                        <i class="fas fa-sort-alpha-down has-text-success"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </th>
+                        <th>OPOMBE</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                % for indeks in podatki:
+                    % if podatki[indeks]['nakupovalni']:
+                        % prazen = False
+                    <tr>
+                        <td>{{ podatki[indeks]['ime'] }}</td>
+                        <td>{{ podatki[indeks]['vrsta'] }}</td>
+                        <td>{{ podatki[indeks]['opombe'] }}</td>
+                        <td>
+                            <div class="field is-grouped">
+                                <form action="/odstrani_caj{{ indeks }}/" method="post">
+                                    <button class="button is-link is-inverted is-success" type="submit">
+                                        <span class="icon is-big">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
+                                        </span>
+                                    </button>
+                                </form>
+                                <form action="/uredi_caj{{ indeks }}/" method="get">
+                                    <button class="button is-link is-inverted is-success" type="submit">
+                                        <span class="icon">
+                                            <i class="fas fa-edit fa-lg"></i>
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    % end
+                % end
+                % if prazen:
+                <tr>
+                    <td colspan="3">
+                        <p class="is-dark">Nakupovalni seznam je prazen.</p>
+                    </td>
+                </tr>
+                % end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
