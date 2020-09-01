@@ -1,8 +1,8 @@
 import json
 
 NAPACNO_GESLO = 'Geslo je napačno!'
-UPORABNIK_ZE_OBSTAJA = 'To uporabniško ime že obstaja!'
-UPORABNIK_NE_OBSTAJA = 'To uporabniško ime ne obstaja! Prosim preverite vnos ali se registrirajte'
+UPORABNIK_ZE_OBSTAJA = 'To uporabniško ime že obstaja!<br>Vpišite se'
+UPORABNIK_NE_OBSTAJA = 'To uporabniško ime ne obstaja!<br>Prosim preverite vnos ali se registrirajte'
  
 class Uporabnik:
     def __init__(self, uporabnisko_ime, zasifrirano_geslo, slovar_s_podatki):
