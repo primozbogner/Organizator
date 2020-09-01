@@ -1,6 +1,6 @@
 % import model
 
-% rebase('base.html', izbrani_zavihek='uredi_caj')
+% rebase('base.html', izbrani_zavihek='uredi_caj', poseben=True)
 
 <div class="columns">
     <div class="column is-half is-offset-one-quarter">
@@ -28,14 +28,14 @@
                         <div class="control is-expanded">
                             <input class="input" type="text" name="vrsta" list="vrsta" pattern="[^'\x22]+" value="{{ podatki[indeks]['vrsta'] }}" required />
                                 <datalist id="vrsta">
-                                    <option>zeleni čaj</option>
-                                    <option>črni čaj</option>
-                                    <option>beli čaj</option>
-                                    <option>oolong čaj</option>
-                                    <option>rooibos čaj</option>
+                                    <option>zeleni</option>
+                                    <option>črni</option>
+                                    <option>beli</option>
+                                    <option>oolong</option>
+                                    <option>rooibos</option>
                                     <option>mate</option>
-                                    <option>zeliščni čaj</option>
-                                    <option>sadni čaj</option>
+                                    <option>zeliščni</option>
+                                    <option>sadni</option>
                                 </datalist>
                         </div>
                     </div>

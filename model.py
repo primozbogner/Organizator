@@ -3,7 +3,6 @@ import json
 NAPACNO_GESLO = 'Geslo je napačno!'
 UPORABNIK_ZE_OBSTAJA = 'To uporabniško ime že obstaja!'
 UPORABNIK_NE_OBSTAJA = 'To uporabniško ime ne obstaja! Prosim preverite vnos ali se registrirajte'
-
  
 class Uporabnik:
     def __init__(self, uporabnisko_ime, zasifrirano_geslo, slovar_s_podatki):
@@ -120,8 +119,14 @@ class Caj:
             self.podatki.pop(indeks)
         self.podatki = urejeni_podatki
 
-    def isci_caj(self, podatki):
-        pass
+    def isci_caj(self, iskani_niz):
+        ustrezni_caji = {}
+        kategorije = ['ime', 'vrsta', 'temperatura', 'cas', 'rok uporabe', 'opombe']
+        for indeks in self.podatki:
+            for kategorija in kategorije:
+                if iskani_niz.lower() in self.podatki[indeks][kategorija].lower():
+                    ustrezni_caji.update({indeks: self.podatki[indeks]})
+        return Caj(ustrezni_caji).podatki
 
     def odstrani_caj(self, indeks):
         self.podatki.pop(indeks)

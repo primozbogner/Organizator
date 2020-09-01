@@ -1,0 +1,43 @@
+% import model
+
+% rebase("base.html", izbrani_zavihek='iskanje', poseben=True)
+
+<div class="columns">
+    <div class="column is-two-thirds is-offset-2">
+        % if najdeno == {}:
+        <div class="hero is-text">
+            <p>Vašemu iskanju ne ustreza noben element</p>
+        </div>
+        % else:
+        <div class="column">
+            <div class="table-container">
+            <table class="table is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>IME</th>
+                        <th>VRSTA</th>
+                        <th>TEMPERATURA [°C]</th>
+                        <th>ČAS [min]</th>
+                        <th>ROK UPORABE</th>
+                        <th>OPOMBE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                % for indeks in najdeno:
+                    <tr>
+                        <td>{{ najdeno[indeks]['ime'] }}</td>
+                        <td>{{ najdeno[indeks]['vrsta'] }}</td>
+                        <td>{{ najdeno[indeks]['temperatura'] }}</td>
+                        <td>{{ najdeno[indeks]['cas'] }}</td>
+                        <td>{{ najdeno[indeks]['rok uporabe'] }}</td>
+                        <td>{{ najdeno[indeks]['opombe'] }}</td>
+                    </tr>
+                % end
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -153,4 +153,14 @@ def nakupovalni_seznam():
     podatki = podatki_trenutnega_uporabnika().podatki
     return bottle.template('nakupovalni_seznam.html', podatki=podatki)
 
+@bottle.get('/iskanje/')
+def iskanje_get():
+   return bottle.template('iskanje.html', najdeno=None)
+
+@bottle.post('/iskanje/')
+def iskanje_post():
+    iskani_niz = bottle.request.forms.getunicode('iskani_niz')
+    najdeno = podatki_trenutnega_uporabnika().isci_caj(iskani_niz)
+    return bottle.template('iskanje.html', najdeno=najdeno)
+
 bottle.run(debug=True, reloader=True)

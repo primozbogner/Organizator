@@ -4,11 +4,15 @@
 % ]
 % oznaka_zavihka = {
 %     'organizator': 'Zaloga',
-%     'nakupovalni_seznam': 'Nakupovalni seznam'
+%     'nakupovalni_seznam': 'Nakupovalni seznam',
+%     'iskanje': 'Iskanje',
+%     'uredi_caj': 'Uredi čaj'
 % }
 % ikona_zavihka = {
 %     'organizator': 'fas fa-th-list has-text-success',
-%     'nakupovalni_seznam': 'fas fa-shopping-basket has-text-success'
+%     'nakupovalni_seznam': 'fas fa-shopping-basket has-text-success',
+%     'iskanje': 'fas fa-search has-text-success',
+%     'uredi_caj': 'fas fa-edit has-text-success'
 % }
 <!DOCTYPE html>
 <html>
@@ -33,7 +37,7 @@
                     </span>
                 </div>
                 <div class="navbar-start">
-                    % if defined('izbrani_zavihek'):
+                    % if defined('izbrani_zavihek') or defined('izbrani_zavihek'):
                         % for zavihek in zavihki:
                             % if zavihek == izbrani_zavihek:
                             <a class="navbar-item is-active" href="/{{zavihek}}/">
@@ -46,19 +50,31 @@
                             <span>{{oznaka_zavihka[zavihek]}}</span>
                             </a>
                         % end
-                        % if izbrani_zavihek == 'uredi_caj':
+                        % if poseben:
                         <a class="navbar-item is-active" href="#">
                             <span class="icon">
-                                <i class="fas fa-edit has-text-success"></i>
+                                <i class="{{ikona_zavihka[izbrani_zavihek]}}"></i>
                             </span>
-                            <span>Uredi čaj</span>
+                            <span>{{oznaka_zavihka[izbrani_zavihek]}}</span>
                         </a>
                         % end
                     % end
                 </div>
                 <div class="navbar-end">
                     % if defined('izbrani_zavihek'):
-                    <a class="navbar-item is-active">
+                    <a class="navbar-item">
+                        <form action="/iskanje/" method="post">
+                            <div class="field has-addons has-addons-centered is-extended">
+                                <div class="control">
+                                    <input class="input" type="text" pattern="[^'\x22]+" placeholder="Vnesite iskalni niz" name="iskani_niz" required>
+                                </div>
+                                <div class="control">
+                                    <button class="button is-link is-success" type="submit">Išči</button>
+                                </div>
+                            </div>
+                        </form>
+                    </a>
+                    <a class="navbar-item">
                         <form method="POST" action="/odjava/">
                             <button class="button is-text is-normal" style="display: flex; align-items: center">Odjavi se</button>
                         </form>
