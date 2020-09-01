@@ -1,51 +1,123 @@
 % import model
 
-% rebase('base.html')
+% rebase('base.html', izbrani_zavihek='uredi_caj')
 
-<p>Tu lahko spremenite podatke v svojem organizatorju.
-<p>Urejanje končate s klikom na gumb Potrdi
+<div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+        <form action="/uredi_caj{{ indeks }}/" method="post">
 
-    <form action="/uredi_caj{{ indeks }}/" method="post">
-        <table>
-            <tr>
-                <td><b>Ime:</b></td>
-                <td><input type="text" name="ime" pattern="[^'\x22]+" value="{{ podatki[indeks]['ime'] }}" required></td>
-            </tr>
-            <tr>
-                <td><b>Vrsta</b></td>
-                <td><input type="text" name="vrsta" list="vrsta" pattern="[^'\x22]+" value="{{ podatki[indeks]['vrsta'] }}" required />
-                    <datalist id="vrsta">
-                        <option>zeleni čaj</option>
-                        <option>črni čaj</option>
-                        <option>beli čaj</option>
-                        <option>oolong čaj</option>
-                        <option>rooibos čaj</option>
-                        <option>mate</option>
-                        <option>zeliščni čaj</option>
-                        <option>sadni čaj</option>
-                    </datalist>
-                </td>
-            </tr>
-            <tr>
-                <td><b>Temperatura:</b></td>
-                <td><input type="number" min="0" max="100" name="temperatura" value="{{ podatki[indeks]['temperatura'] }}"></td>
-            </tr>
-            <tr>
-                <td><b>Čas:</b></td>
-                <td><input type="time" name="cas" value="{{ podatki[indeks]['cas'] }}"></td>
-            </tr>
-            <tr>
-                <td><b>Rok uporabe:</b></td>
-                <td><input type="text" name="rok uporabe" pattern="[0-9]{4}-(0[1-9]|1[012])" title="Vnešeni rok uporabe, ki naj bo oblike LLLL-MM" value="{{ podatki[indeks]['rok uporabe'] }}"></td>
-            </tr>
-            <tr>
-                <td><b>Opombe</b></td>
-                <td><input type="text" name="opombe" pattern="[^'\x22]+" value="{{ podatki[indeks]['opombe'] }}"></td>
-            </tr>
-            <tr>
-                <td>Dodaj v nakupovalni seznam?</td>
-                <td><input type="checkbox" name="nakupovalni" value="True"></td>
-            </tr>
-        </table>
-        <input type="submit" value="Potrdi">
-    </form>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Ime</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <input class="input" type="text" name="ime" pattern="[^'\x22]+" value="{{ podatki[indeks]['ime'] }}" required>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Vrsta</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <input class="input" type="text" name="vrsta" list="vrsta" pattern="[^'\x22]+" value="{{ podatki[indeks]['vrsta'] }}" required />
+                                <datalist id="vrsta">
+                                    <option>zeleni čaj</option>
+                                    <option>črni čaj</option>
+                                    <option>beli čaj</option>
+                                    <option>oolong čaj</option>
+                                    <option>rooibos čaj</option>
+                                    <option>mate</option>
+                                    <option>zeliščni čaj</option>
+                                    <option>sadni čaj</option>
+                                </datalist>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Priprava</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <input class="input" type="number" min="0" max="100" name="temperatura" value="{{ podatki[indeks]['temperatura'] }}" />
+                            <p class="help is-dark">Temperatura vode</p>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <input class="input" type="time" name="cas" value="{{ podatki[indeks]['cas'] }}" />
+                            <p class="help is-dark">Čas namakanja</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Rok uporabe</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <input class="input" type="text" name="rok uporabe" pattern="[0-9]{4}-(0[1-9]|1[012])" value="{{ podatki[indeks]['rok uporabe'] }}" />
+                            <p class="help is-dark">Vnešeni rok uporabe naj bo oblike LLLL-MM</p>
+                        </div>
+                    </div>    
+                </div> 
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Opombe</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" name="opombe" pattern="[^'\x22]+" value="{{ podatki[indeks]['opombe'] }}"></textarea>
+                        </div>
+                    </div>    
+                </div> 
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label"></div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <label class="checkbox">
+                                Dodaj v <a href="/nakupovalni_seznam/" class="has-text-success">nakupovalni seznam</a>?
+                                % if podatki[indeks]['nakupovalni']:
+                                <input type="checkbox" name="nakupovalni" value="True" checked>
+                                % else:
+                                <input type="checkbox" name="nakupovalni" value="True">
+                                % end
+                            </label>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label"></div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-link is-success" type="submit">Shrani spremembe</button>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+        </form>
+    </div>
+</div>

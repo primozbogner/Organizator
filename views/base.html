@@ -46,6 +46,14 @@
                             <span>{{oznaka_zavihka[zavihek]}}</span>
                             </a>
                         % end
+                        % if izbrani_zavihek == 'uredi_caj':
+                        <a class="navbar-item is-active" href="#">
+                            <span class="icon">
+                                <i class="fas fa-edit has-text-success"></i>
+                            </span>
+                            <span>Uredi čaj</span>
+                        </a>
+                        % end
                     % end
                 </div>
                 <div class="navbar-end">
@@ -68,11 +76,5 @@
         <section class="section">
             {{!base}}
         </section>
-        <!--
-        <footer class="footer">
-            <div class="content has-text-centered">
-                
-            </div>
-        </footer>-->
     </body>
 </html>
