@@ -3,31 +3,49 @@
     "zasifrirano_geslo": "ccf859c3fcdbd71d7eaccd44a075f8b0e3c2570f6dab36f18d0aad6bcbc97f35d6d372e49b47a110378e985817b2c5ac05e7b4c30057fd665c833203cdd3138e",
     "slovar_s_podatki": {
         "1": {
-            "ime": "Limonska trava vanilija",
-            "vrsta": "zeliščni čaj",
-            "temperatura": "100",
-            "cas": "07:00",
-            "rok uporabe": "2021-06",
-            "opombe": "Zmanjkuje!",
+            "ime": "8 zakladov s templja Shaolin",
+            "vrsta": "zeleni",
+            "temperatura": "70",
+            "cas": "02:00",
+            "rok uporabe": "",
+            "opombe": "",
             "nakupovalni": false
         },
         "2": {
-            "ime": "8 zakladov s templja Shaolin",
-            "vrsta": "zeleni čaj",
-            "temperatura": "70",
-            "cas": "02:00",
-            "rok uporabe": "2021-02",
+            "ime": "Mate granatno jabolko",
+            "vrsta": "mate",
+            "temperatura": "80",
+            "cas": "04:00",
+            "rok uporabe": "",
             "opombe": "",
             "nakupovalni": false
         },
         "3": {
+            "ime": "Mojito mint",
+            "vrsta": "črni",
+            "temperatura": "100",
+            "cas": "03:00",
+            "rok uporabe": "",
+            "opombe": "Zmanjkuje!",
+            "nakupovalni": false
+        },
+        "4": {
             "ime": "Vroče poletje",
-            "vrsta": "črni čaj",
+            "vrsta": "črni",
             "temperatura": "100",
             "cas": "03:00",
             "rok uporabe": "",
             "opombe": "",
-            "nakupovalni": true
+            "nakupovalni": false
+        },
+        "5": {
+            "ime": "Zelena limona",
+            "vrsta": "zeleni",
+            "temperatura": "70",
+            "cas": "02:30",
+            "rok uporabe": "",
+            "opombe": "",
+            "nakupovalni": false
         }
     }
 }
