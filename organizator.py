@@ -20,8 +20,9 @@ def podatki_trenutnega_uporabnika():
     return trenutni_uporabnik().slovar_s_podatki
 
 def shrani_trenutnega_uporabnika():
+    """Podatke trenutnega uporabnika shrani v json datoteko v mapi 'uporabniki,' ime datoteke je uporabnisko_ime"""
     uporabnik = trenutni_uporabnik()
-    uporabnik.shrani_stanje(os.path.join('uporabniki', '{}.json'.format(uporabnik.uporabnisko_ime))) # stanje shrani v json datoteko v mapi 'uporabniki', ime datoteke je uporabniško ime
+    uporabnik.shrani_stanje(os.path.join('uporabniki', '{}.json'.format(uporabnik.uporabnisko_ime)))
 
 @bottle.get('/')
 def zacetna_stran():
@@ -162,5 +163,9 @@ def iskanje_post():
     iskani_niz = bottle.request.forms.getunicode('iskani_niz')
     najdeno = podatki_trenutnega_uporabnika().isci_caj(iskani_niz)
     return bottle.template('iskanje.html', najdeno=najdeno)
+
+@bottle.get('/pomoc/')
+def pomoc():
+    return bottle.template('pomoc.html')
 
 bottle.run(debug=True, reloader=True)
