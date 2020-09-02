@@ -1,7 +1,7 @@
 import json
 
 NAPACNO_GESLO = 'Geslo je napačno!'
-UPORABNIK_ZE_OBSTAJA = 'To uporabniško ime že obstaja!<br>Vpišite se'
+UPORABNIK_ZE_OBSTAJA = 'To uporabniško ime že obstaja!'
 UPORABNIK_NE_OBSTAJA = 'To uporabniško ime ne obstaja!<br>Prosim preverite vnos ali se registrirajte'
  
 class Uporabnik:
@@ -11,10 +11,26 @@ class Uporabnik:
         self.slovar_s_podatki = slovar_s_podatki
         
     def preveri_geslo(self, zasifrirano_geslo):
+        """Funkcija za preverjanje pravilnosti vnešenega gesla"""
         if self.zasifrirano_geslo != zasifrirano_geslo:
             return NAPACNO_GESLO 
 
     def shrani_stanje(self, ime_datoteke):
+        """Funkcija, ki trenutno stanje shrani v json datoteko:\n
+        {\n
+            "uporabnisko_ime": "uporabnik",
+            "zasifrirano_geslo": null,
+            "slovar_s_podatki": {
+            "1": {
+                "ime": "8 zakladov s templja Shaolin",
+                "vrsta": "zeleni",
+                "temperatura": "70",
+                "cas": "02:00",
+                "rok uporabe": "",
+                "opombe": "",
+                "nakupovalni": false
+            }
+        }"""
         slovar_stanja = {
             "uporabnisko_ime": self.uporabnisko_ime,
             "zasifrirano_geslo": self.zasifrirano_geslo,
@@ -25,6 +41,7 @@ class Uporabnik:
 
     @classmethod
     def nalozi_stanje(cls, ime_datoteke):
+        """Funkcija, ki prebere json datoteko in iz nje ustvari razred Uporabnik s podatki o uporabniškem imenu, geslom in slovarjem podatkov"""
         with open(ime_datoteke, encoding="utf-8") as dat:
             slovar_stanja = json.load(dat)
         uporabnisko_ime = slovar_stanja["uporabnisko_ime"]
@@ -48,22 +65,20 @@ class Caj:
             najvecji_indeks += 1
             return najvecji_indeks
 
-# podatki so oblikovani kot slovar slovarjev, kjer so ključi indeksi, vrednosti pa podatki zapisani v obliki slovarja:
-# {
-#     "1":
-#         {
-#             "ime": "Beli tiger",
-#             "vrsta": "beli čaj",
-#             "temperatura": 80,
-#             "cas": "3-5",
-#             "rok uporabe": "02/21",
-#             "opombe": "Zmanjkuje!",
-#             "nakupovalni": false
-#         }
-# }
-
     def dodaj_caj(self, ime, vrsta, temperatura, cas, rok, opombe, nakupovalni):
-        """Doda nov čaj v slovar podatkov"""
+        """Doda nov čaj v slovar podatkov, ki je oblikovan kot slovar slovarjev, kjer so ključi indeksi, vrednosti pa podatki zapisani v obliki slovarja:\n
+        {\n
+            "1":
+                {
+                    "ime": "Beli tiger",
+                    "vrsta": "beli čaj",
+                    "temperatura": 80,
+                    "cas": "3-5",
+                    "rok uporabe": "02/21",
+                    "opombe": "Zmanjkuje!",
+                    "nakupovalni": false
+                }
+        }"""
         self.podatki[self.nov_indeks()] = {
             "ime": ime,
             "vrsta": vrsta,
@@ -120,6 +135,7 @@ class Caj:
         self.podatki = urejeni_podatki
 
     def isci_caj(self, iskani_niz):
+        """V slovarju podatkov poišče vse čaje, ki ustrezajo iskanemu nizu, iz teh ustvari nov razred in vrne slovar podatkov tega razreda"""
         ustrezni_caji = {}
         kategorije = ['ime', 'vrsta', 'temperatura', 'cas', 'rok uporabe', 'opombe']
         for indeks in self.podatki:
@@ -129,4 +145,5 @@ class Caj:
         return Caj(ustrezni_caji).podatki
 
     def odstrani_caj(self, indeks):
+        """Odstrani caj iz slovarja podatkov"""
         self.podatki.pop(indeks)
